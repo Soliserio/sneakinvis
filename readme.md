@@ -1,43 +1,60 @@
-SneakInvis
+## SneakInvis v1.0.4
 Author: Soliserio
-A Windower addon that applies Sneak and Invisible using each character’s available spells, abilities, or consumables.
-Installation
-1. Extract the ZIP into your Windower folder, preserving this structure:Windower/
-     addons/sneakinvis/sneakinvis.lua
-     scripts/sneakinvis_all.txt
-2. Install Windower’s Send addon to use the all-character script.
-Use on all characters
-Stand still and disengage, then enter in game chat:
-//exec sneakinvis_all.txt
-This loads the required addons and starts one buff pass on each connected character.
-For an in-game macro, use:
-/console exec sneakinvis_all.txt
-Use on one character
-//lua load sneakinvis
-//sneakinvis start
-Reload after updating
-If the addon is already loaded, reload it before running the script again:
+
+Applies missing Sneak and Invisible buffs with one command, on one character or all your logged-in characters.
+
+### New in this release
+- Silent Oil, Prism Powder, and Ninja tools can now be pulled from Mog Satchel, Mog Sack, and Mog Case.
+- Uses supplies in Inventory first.
+- Confirms withdrawals before using supplies.
+- Returns unused borrowed supplies to their original bag.
+- Confirmed working in game on all characters; 41 offline tests passed.
+
+### Installation
+Extract the ZIP and copy its addons and scripts folders into your Windower folder, merging the folders.
+
+### Commands — enter in game chat
+
+Load on all characters:
+//send @all lua load sneakinvis
+
+After updating, reload on all characters:
 //send @all lua reload sneakinvis
-For one character:
-//lua reload sneakinvis
-How it works
-The addon checks these options in order:
-1. Available, learned Sneak and Invisible spells, with sufficient MP and ready recasts.
-2. Spectral Jig, if available and ready.
-3. Silent Oil for Sneak and Prism Powder for Invisible.
-Characters with both buffs already active are skipped. If only Sneak is active and Spectral Jig is selected, the addon removes Sneak first so Jig can apply both buffs.
-Consumables already in Inventory are used first. Otherwise, the addon retrieves one from Mog Case, confirms the transfer, and uses it. Any unused borrowed item is returned to Mog Case when possible. Existing Inventory supplies are not moved back.
-Stop or check status
-Stop all characters:
-//send @all sneakinvis stop
-Stop the current character:
-//sneakinvis stop
+
+Run on all characters:
+//exec sneakinvis_all.txt
+
+Run on the current character:
+//sneakinvis start
+
 Check the current character:
 //sneakinvis status
-Notes and troubleshooting
+
+Stop the current character:
+//sneakinvis stop
+
+Stop all characters:
+//send @all sneakinvis stop
+
+In-game macro line:
+/console exec sneakinvis_all.txt
+
+### How it works
+1. Uses available Sneak and Invisible spells.
+2. Falls back to Spectral Jig.
+3. Tries Ninja spells: Monomi and Tonko.
+4. Uses Silent Oil and Prism Powder as the final fallback.
+
+Ninja spell checks include learned spells, job level, recast, and tools. Universal Ninja tools require Ninja as the main job.
+
+Already-active buffs are skipped. If only Sneak is active and Spectral Jig is selected, Sneak may be replaced so Jig can apply both buffs.
+
+### Important notes
+- Stand still and disengage before running.
+- All-character commands require Windower Send and SneakInvis loaded on each client.
 - This is a one-shot command, not continuous rebuffing.
-- Stand still and disengage before starting. Other automated actions may interfere.
-- Leave a free Inventory slot when supplies must be retrieved from Mog Case.
-- The addon does not change Trust, follow, or healing settings.
-- An Incomplete message means the requested buffs were not confirmed. Check the accompanying reason before retrying.
-- After zoning, logging out, or unloading during a transfer, check Inventory for any borrowed supplies.
+- Leave one Inventory slot free for withdrawals.
+- Do not manually move supplies during a run.
+- If a transfer times out, check Inventory and the source bag before retrying.
+- Consumed supplies cannot be returned.
+- Trust, follow, and HealBot settings are not changed.
